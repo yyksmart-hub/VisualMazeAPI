@@ -11,22 +11,23 @@ public class MazeWindow extends JFrame {
     private boolean isAnimating = false;
 
 
-    public MazeWindow(BufferedImage mazeImage, MazeConfig config) {
+    // הוספנו את int logicalWidth, int logicalHeight לסוף החתימה
+    public MazeWindow(BufferedImage mazeImage, MazeConfig config, int logicalWidth, int logicalHeight) {
         this.config = config;
         setTitle("Maze Play");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        mazePanel = new MazePanel(mazeImage, config);
+        // מעבירים את המידות לפאנל החדש
+        mazePanel = new MazePanel(mazeImage, config, logicalWidth, logicalHeight);
         add(mazePanel, BorderLayout.CENTER);
 
         JButton checkSolutionBtn = new JButton("Check Solution");
         checkSolutionBtn.addActionListener(e -> handleCheckSolution());
         add(checkSolutionBtn, BorderLayout.SOUTH);
 
-        // pack() אומר לחלון: "תתכווץ בדיוק מסביב למבוך בלי להשאיר שטח מיותר"
         pack();
-        setResizable(false); // נועל את גודל החלון כדי שלא יהיו תקלות ציור
+        setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
     }

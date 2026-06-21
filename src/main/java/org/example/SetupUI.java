@@ -92,7 +92,9 @@ public class SetupUI {
                 // חזרה ל-UI Thread כדי לעדכן את המסך
                 SwingUtilities.invokeLater(() -> {
                     if (mazeImage != null) {
-                        new MazeWindow(mazeImage, currentConfig);
+                        // שנה את השורה המקורית שהייתה: new MazeWindow(img, currentConfig);
+                         // לשורה הזו (כאשר width ו-height הם הערכים שנלקחו משדות הטקסט):
+                        new MazeWindow(mazeImage, currentConfig, width, height);
                     } else {
                         JOptionPane.showMessageDialog(frame, "Failed to fetch maze image.", "Network Error", JOptionPane.ERROR_MESSAGE);
                     }
