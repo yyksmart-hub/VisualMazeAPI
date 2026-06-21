@@ -10,6 +10,13 @@ public class SetupUI {
     private static final int DEFAULT_MAZE_SIZE = 30;
     private static final int MIN_MAZE_SIZE = 5;
     private static final int MAX_MAZE_SIZE = 100;
+    // קבועים עבור גודל חלון ההגדרות
+    private static final int WINDOW_SIZE = 400;
+
+    // קבועים עבור עימוד הגריד (GridLayout)
+    private static final int GRID_ROWS = 0;    // 0 אומר כמות שורות דינמית בהתאם לרכיבים
+    private static final int GRID_COLS = 2;    // 2 עמודות (שם הרכיב והערך שלו)
+    private static final int GRID_GAP = 10;  // רווח  בפיקסלים בין התאים
 
     // אובייקטים שנשמור ברמת המחלקה
     private final ApiClient apiClient;
@@ -26,9 +33,9 @@ public class SetupUI {
 
         JFrame frame = new JFrame("Maze Generator Setup");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+        frame.setSize(WINDOW_SIZE, WINDOW_SIZE);
         frame.setLocationRelativeTo(null);
-        frame.setLayout(new GridLayout(0, 2, 10, 10));
+        frame.setLayout(new GridLayout(GRID_ROWS, GRID_COLS, GRID_GAP, GRID_GAP));
 
         // --- סקשן 1: תצוגת ההגדרות מהשרת ---
         frame.add(new JLabel("--- Render Config ---"));
