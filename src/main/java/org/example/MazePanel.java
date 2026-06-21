@@ -59,11 +59,12 @@ public class MazePanel extends JPanel {
         }
     }
 
-    @Override
+       @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // 1. ציור קירות ומעברים
+        
+        // --- שכבה 1: ציור כל הרקעים (קירות ומעברים) ---
+        // בשלב זה אנחנו עושים רק fillRect, בלי לגעת בגריד בכלל!
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 if (this.isWall[r][c]) {
@@ -71,28 +72,34 @@ public class MazePanel extends JPanel {
                 } else {
                     g.setColor(EMPTY_CELL_COLOR);
                 }
-
-                // צביעת המשבצת המלאה (עכשיו בגודל CELL_SIZE האמיתי, למשל 20x20)
+                // צביעת ריבוע הרקע
                 g.fillRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            }
+        }
 
-                // כעת CELL_SIZE גדול מ-1, ולכן הגריד יצויר בצורה מושלמת מסביב למשבצות!
-                if (config.isDrawGrid() && CELL_SIZE > 1 && !this.isWall[r][c]) {
-                    g.setColor(gridColor);
-                    g.drawRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        // --- שכבה 2: ציור הרשת (Grid) מעל הרקעים המוכנים ---
+        // הלולאה הזו רצה אחרי שכל הרקעים צוירו, ולכן הצבע של השרת בחיים לא יידרס!
+        if (config.isDrawGrid() && CELL_SIZE > 1) {
+            g.setColor(gridColor); // שימוש בצבע המדויק מהשרת
+            for (int r = 0; r < rows; r++) {
+                for (int c = 0; c < cols; c++) {
+                    // אם אתה רוצה שהגריד יופיע רק בשבילים הלבנים (כמו שהיה מקודם):
+                    if (!this.isWall[r][c]) {
+                        g.drawRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                    }
                 }
             }
         }
 
-        // 2. ציור נתיב הפתרון המונפש
+        // --- שכבה 3: ציור נתיב הפתרון המונפש ---
         synchronized (animatedPath) {
             g.setColor(pathColor);
             for (Point p : animatedPath) {
-                // כעת זה ימלא את כל הריבוע של המסדרון ולא רק פיקסל בודד!
                 g.fillRect(p.x * CELL_SIZE, p.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
         }
     }
-
+ 
     public boolean[][] getIsWallMatrix() {
         return this.isWall;
     }
